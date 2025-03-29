@@ -20,8 +20,8 @@ def realizar_pedido():
         return
     
     print("\nLista de cliente(s):")
-    for i, cliente in enumerate(clientes, 1):
-        print(f"ID: {i} - Nome: {cliente.nome}")
+    for cliente in clientes:
+        print(f"ID: {cliente.idCliente} - Nome: {cliente.nome}")
 
     while True:
         escolha_cliente = input("\nEscolha o ID do cliente que irá realizar o pedido (digite '0' para cancelar): ")
