@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
-from .base import Base
+from models.base import Base
 
 pedido_sabor = Table('pedido_sabor', Base.metadata,
     Column('pedido_id', Integer, ForeignKey('pedido.idPedido')),
