@@ -5,9 +5,9 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from utils.helpers import cls
 from models.base import init_db
-from services.sorveteria_service import cadastrar_sorveteria, listar_sorveterias, deletar_sorveteria
-from services.sabor_service import cadastrar_sabor, listar_sabores
-from services.cliente_service import cadastrar_cliente, listar_clientes, deletar_cliente
+from services.sorveteria_service import cadastrar_sorveteria, listar_sorveterias
+from services.sabor_service import cadastrar_sabor
+from services.cliente_service import cadastrar_cliente, listar_clientes
 from services.pedido_service import realizar_pedido, listar_pedidos
 
 def menu():
