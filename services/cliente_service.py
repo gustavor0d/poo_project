@@ -62,6 +62,45 @@ def listar_clientes():
             print(str(cliente.idCliente).ljust(3) + " | " + cliente.nome.ljust(25) + " | " + str(cliente.idade).ljust(5) + " | " + cliente.telefone.ljust(20))
 
         print("-" * 60)
+
+        while True:
+            print("\nOpções:\n")
+            print("1. Deletar Clientes")
+            print("0. Voltar")
+
+            opcao = input("\nEscolha uma opção: ")
+
+            if opcao == '1':
+                    while True:
+                        escolha_cliente = input("\nDigite o ID do Cliente (ou '0' para cancelar): ")
+
+                        try:
+                            id_cliente = int(escolha_cliente)
+
+                            if id_cliente == 0:
+                                cls()
+                                print("\nOperação cancelada.")
+                                return
+
+                            if id_cliente < 0 or id_cliente > len(clientes):
+                                print("\nID inválido, tente novamente.")
+                                continue
+                            
+                            else:
+                                deletar_cliente(id_cliente)
+                                return
+                            
+                        except:
+                            print("\nOops, você não digitou um valor numérico! Tente novamente.")
+
+            if opcao == '0':
+                cls()
+                break
+
+            else:
+                print("\nOops, opção inválida! Tente novamente.")
+                continue
+
     else:
         cls()
         print("\nNenhum cliente cadastrado.")

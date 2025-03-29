@@ -1,6 +1,7 @@
 from models.base import session
 from models.sorveteria import Sorveteria
 from utils.helpers import cls
+from services.sabor_service import listar_sabores
 
 def cadastrar_sorveteria():
     print("\n(Digite '0' para cancelar o cadastro)\n")
@@ -42,6 +43,49 @@ def listar_sorveterias():
             print(str(sorveteria.idSorveteria).ljust(5) + " | " + sorveteria.nome.ljust(20) + " | " + sorveteria.endereco.ljust(25) + " | " + sorveteria.telefone.ljust(15))
         
         print("-" * 75)
+
+        while True:
+            print("\nOpções:\n")
+            print("1. Visualizar Sabores")
+            print("2. Deletar Sorveterias")
+            print("0. Voltar")
+
+            opcao = input("\nEscolha uma opção: ")
+
+            if opcao == '1':
+                listar_sabores()
+                break
+
+            if opcao == '2':
+                    while True:
+                        escolha_sorveteria = input("\nDigite o ID da Sorveteria (ou '0' para cancelar): ")
+
+                        try:
+                            id_sorveteria = int(escolha_sorveteria)
+
+                            if id_sorveteria == 0:
+                                cls()
+                                print("\nOperação cancelada.")
+                                return
+
+                            if id_sorveteria < 0 or id_sorveteria > len(sorveterias):
+                                print("\nID inválido, tente novamente.")
+                                continue
+                            
+                            else:
+                                deletar_sorveteria(id_sorveteria)
+                                return
+                            
+                        except:
+                            print("\nOops, você não digitou um valor numérico! Tente novamente.")
+
+            if opcao == '0':
+                cls()
+                break
+
+            else:
+                print("\nOops, opção inválida! Tente novamente.")
+                continue
     else:
         cls()
         print("\nNenhuma sorveteria cadastrada.")
