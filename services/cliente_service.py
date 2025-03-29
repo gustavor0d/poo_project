@@ -110,10 +110,12 @@ def deletar_cliente(id_cliente):
     cliente = session.query(Cliente).get(id_cliente)
     
     if cliente:
-        print(f"Deseja realmente deletar o cliente ID {id_cliente}?\n[S] Para Sim\n[N] Para Não")
+        print(f"\n\tDeseja realmente deletar o cliente ID {id_cliente}?"
+              "\n\t[S] Para Sim"
+              "\n\t[N] Para Não")
 
         while True:
-            opcao = input("\n>>> ").lower()
+            opcao = input("\n\t>>> ").lower()
 
             if opcao == 's':
                 cls()
@@ -128,7 +130,8 @@ def deletar_cliente(id_cliente):
                 return
             
             else:
-                print("\nEntrada inválida!")
+                print("\n\t[Erro] Entrada inválida!")
                 continue
     else:
+        cls()
         print(f"\nCliente ID {id_cliente} não encontrado.")

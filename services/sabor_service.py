@@ -40,9 +40,9 @@ def cadastrar_sabor():
     sorveteria_selecionada = sorveterias[id_sorveteria]
     
     cls()
-    print(f"Sorveteria: {sorveteria_selecionada.nome} selecionada com sucesso!")
+    print(f"Sorveteria: {sorveteria_selecionada.nome} selecionada com sucesso!\n")
 
-    print("="*6, "Cadastro de Sabor", "="*6)
+    print("="*8, "Cadastro de Sabor", "="*8)
     print("\n(Digite '0' para cancelar o cadastro)\n")
 
     nome = input("Nome do Sabor: ")
