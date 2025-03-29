@@ -30,8 +30,10 @@ def cadastrar_sabor():
             if id_sorveteria < 0 or id_sorveteria >= len(sorveterias):
                 print("\nID da sorveteria inválida.")
                 continue
+
             else:
                 break
+            
         except:
             print("\nOops, você não digitou um valor numérico! Tente novamente.")
     

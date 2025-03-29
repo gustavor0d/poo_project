@@ -71,7 +71,7 @@ def listar_sorveterias():
                                 return
 
                             if id_sorveteria < 0 or id_sorveteria > len(sorveterias):
-                                print("\nID inválido, tente novamente.")
+                                print("\nID de sorveteria inválido, tente novamente.")
                                 continue
                             
                             else:
@@ -90,16 +90,18 @@ def listar_sorveterias():
                 continue
     else:
         cls()
-        print("\nNenhuma sorveteria cadastrada até o momento.")
+        print("\nNenhuma sorveteria cadastrada.")
 
 def deletar_sorveteria(id_sorveteria):
     sorveteria = session.query(Sorveteria).get(id_sorveteria)
     
     if sorveteria:
-        print(f"Deseja realmente deletar a sorveteria ID {id_sorveteria}?\n[S] Para Sim\n[N] Para Não")
+        print(f"\n\tDeseja realmente deletar a sorveteria ID {id_sorveteria}?"
+              "\n\t[S] Para Sim"
+              "\n\t[N] Para Não")
 
         while True:
-            opcao = input("\n>>> ").lower()
+            opcao = input("\n\t>>> ").lower()
 
             if opcao == 's':
                 cls()
@@ -114,7 +116,8 @@ def deletar_sorveteria(id_sorveteria):
                 return
             
             else:
-                print("\nEntrada inválida!")
+                print("\n\t[Erro] Entrada inválida!")
                 continue
     else:
+        cls()
         print(f"\nSorveteria ID {id_sorveteria} não encontrada.")
