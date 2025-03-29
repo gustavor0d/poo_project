@@ -8,16 +8,16 @@ def cadastrar_sabor():
 
     if not sorveterias:
         cls()
-        print("\nNenhuma sorveteria cadastrada.")
+        print("\nÉ necessário ter uma sorveteria para cadastrar um sabor.")
         return
     
     print("\nLista de sorveteria(s):")
 
-    for i, sorveteria in enumerate(sorveterias, 1):
-        print(f"ID: {i} - {sorveteria.nome}")
+    for sorveteria in sorveterias:
+        print(f"ID: {sorveteria.idSorveteria} - {sorveteria.nome}")
 
     while True:
-        escolha_sorveteria = input("\nEscolha o ID da sorveteria para cadastrar o sabor (ou digite '0' para cancelar): ")
+        escolha_sorveteria = input("\nEscolha o ID de uma sorveteria para cadastrar o sabor (ou digite '0' para cancelar): ")
 
         try:
             id_sorveteria = int(escolha_sorveteria) - 1
@@ -40,6 +40,7 @@ def cadastrar_sabor():
     cls()
     print(f"Sorveteria: {sorveteria_selecionada.nome} selecionada com sucesso!")
 
+    print("="*6, "Cadastro de Sabor", "="*6)
     print("\n(Digite '0' para cancelar o cadastro)\n")
 
     nome = input("Nome do Sabor: ")

@@ -4,21 +4,23 @@ from utils.helpers import cls
 from services.sabor_service import listar_sabores
 
 def cadastrar_sorveteria():
+    print("="*6, "Cadastro de Sorveteria", "="*6)
+
     print("\n(Digite '0' para cancelar o cadastro)\n")
 
-    nome = input("Nome da Sorveteria: ")
+    nome = input("Digite um Nome: ")
     if nome == '0':
         cls()
         print("\nCadastro de sorveteria cancelado.")
         return
 
-    endereco = input("Endereço: ")
+    endereco = input("Digite um Endereço: ")
     if endereco == '0':
         cls()
         print("\nCadastro de sorveteria cancelado.")
         return
 
-    telefone = input("Telefone: ")
+    telefone = input("Digite um Telefone: ")
     if telefone == '0':
         cls()
         print("\nCadastro de sorveteria cancelado.")
@@ -30,7 +32,7 @@ def cadastrar_sorveteria():
 
     cls()
     print(f"\nSorveteria '{nome}' cadastrada com sucesso!\n")
-    print(f"ID da sorveteria: {sorveteria.idSorveteria}")
+    print(f"ID da Sorveteria: {sorveteria.idSorveteria}")
 
 def listar_sorveterias():
     sorveterias = session.query(Sorveteria).all()
@@ -88,7 +90,7 @@ def listar_sorveterias():
                 continue
     else:
         cls()
-        print("\nNenhuma sorveteria cadastrada.")
+        print("\nNenhuma sorveteria cadastrada até o momento.")
 
 def deletar_sorveteria(id_sorveteria):
     sorveteria = session.query(Sorveteria).get(id_sorveteria)

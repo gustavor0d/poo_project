@@ -3,9 +3,10 @@ from models.cliente import Cliente
 from utils.helpers import cls
 
 def cadastrar_cliente():
+    print("="*6, "Cadastro de Cliente", "="*6)
     print("\n(Digite '0' para cancelar o cadastro)\n")
 
-    nome = input("Nome do cliente: ")
+    nome = input("Nome: ")
     if nome == '0':
         cls()
         print("\nCadastro de cliente cancelado.")
@@ -26,7 +27,7 @@ def cadastrar_cliente():
                 print(f"\nVocê deve ser maior de 15 anos para realizar um cadastro em nosso sistema!\nCadastro do(a) {nome} cancelado.")
                 return
             
-            elif idade < 0 or idade > 80:
+            elif idade < 0 or idade > 100:
                 print(f"\nInsira uma idade válida para o {nome}\n")
                 continue
 
