@@ -137,9 +137,9 @@ Insira o número correspondente à funcionalidade desejada. O sistema guiará vo
 O sistema é estruturado em torno das seguintes entidades principais:
 
 -   `Sorveteria`: Gerencia as informações das sorveterias cadastradas (nome, endereço, telefone).
--   `Sabor`: Registra os diferentes sabores de sorvete disponíveis (nome, descrição, preço, sorveteria).
+-   `Sabor`: Registra os diferentes sabores de sorvetes disponíveis (nome, descrição, preço, sorveteria).
 -   `Cliente`: Mantém os registros dos clientes que realizam pedidos (nome, idade, telefone).
--   `Pedido`: Gerencia os pedidos feitos pelos clientes (cliente, sabores, valor total).
+-   `Pedido`: Gerencia os pedidos feitos pelos clientes (cliente, sabores, valor total, data do pedido).
 
 ###  Estrutura de Arquivos
 
