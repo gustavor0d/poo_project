@@ -169,7 +169,7 @@ poo_project/
 
 ## Banco de Dados
 
-O sistema utiliza SQLite, um banco de dados leve e eficiente, adequado para armazenar as informações de sorveterias, sabores, clientes, pedidos e funcionários de forma organizada e segura.
+O sistema utiliza SQLite, um banco de dados leve e eficiente, adequado para armazenar as informações de sorveterias, sabores, clientes e pedidos de forma organizada e segura.
 
 ## Conclusão
 
