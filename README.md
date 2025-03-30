@@ -13,6 +13,8 @@ Utilizando Python e SQLAlchemy para manipulação de banco de dados para oferece
 - [Descrição das Funcionalidades](#descrição-das-funcionalidades)
 - [Uso](#uso)
 - [Estrutura do Sistema](#estrutura-do-sistema)
+- [Banco de dados](#banco-de-dados)
+- [Conclusão](#conclusão)
 - [Contribuição](#contribuição)
 
 ## Requisitos
@@ -68,28 +70,28 @@ Com uma interface intuitiva, nosso sistema permite:
 ## Descrição das Funcionalidades
 
 1. **Cadastro de Sorveterias**
-●	Processo: O usuário insere o nome, endereço e telefone da nova sorveteria. O sistema salva essas informações no banco de dados.
-●	Benefício: Permite gerenciar múltiplas sorveterias de forma eficiente.
+-	Processo: O usuário insere o nome, endereço e telefone da nova sorveteria. O sistema salva essas informações no banco de dados.
+-	Benefício: Permite gerenciar múltiplas sorveterias de forma eficiente.
 
 3. **Cadastro de Sabores**
-●	Processo: O usuário insere o nome, descrição e preço de um novo sabor. Além disso, escolhe a sorveteria a que este sabor pertence.
-●	Benefício: Facilita a adição de novos sabores e sua associação com sorveterias específicas.
+-	Processo: O usuário insere o nome, descrição e preço de um novo sabor. Além disso, escolhe a sorveteria a que este sabor pertence.
+-	Benefício: Facilita a adição de novos sabores e sua associação com sorveterias específicas.
 
 5. **Cadastro de Clientes**
-●	Processo: O usuário insere o nome, idade e telefone de um novo cliente.
-●	Benefício: Cria um registro detalhado dos clientes para melhor gerenciamento e atendimento.
+-	Processo: O usuário insere o nome, idade e telefone de um novo cliente.
+-	Benefício: Cria um registro detalhado dos clientes para melhor gerenciamento e atendimento.
 
 7. **Realização de Pedidos**
-●	Processo: O usuário seleciona um cliente, escolhe os sabores e registra o pedido. O sistema calcula automaticamente o total do pedido.
-●	Benefício: Simplifica o processo de venda e garante precisão no cálculo dos valores.
+-	Processo: O usuário seleciona um cliente, escolhe os sabores e registra o pedido. O sistema calcula automaticamente o total do pedido.
+-	Benefício: Simplifica o processo de venda e garante precisão no cálculo dos valores.
 
 9. **Listagem de Pedidos**
-●	Processo: O sistema exibe uma lista de todos os pedidos, mostrando o cliente, os sabores e o total.
-●	Benefício: Facilita a visualização e o controle dos pedidos realizados.
+-	Processo: O sistema exibe uma lista de todos os pedidos, mostrando o cliente, os sabores e o total.
+-	Benefício: Facilita a visualização e o controle dos pedidos realizados.
 
 11. **Listagem de Sorveterias e Clientes**
-●	Processo: O sistema exibe listas detalhadas de todas as sorveterias e clientes cadastrados.
-●	Benefício: Proporciona uma visão geral e rápida consulta das informações cadastradas.
+-	Processo: O sistema exibe listas detalhadas de todas as sorveterias e clientes cadastrados.
+-	Benefício: Proporciona uma visão geral e rápida consulta das informações cadastradas.
 
 ## Uso
 
@@ -113,29 +115,35 @@ O usuário deve inserir o número correspondente à funcionalidade desejada. Se 
 ## Estrutura do Sistema
 
 1. Sorveteria
-  ●	Função: Gerencia as informações das sorveterias cadastradas.
-  ●	Dados Armazenados: Nome, endereço e telefone.
-  ●	Exemplo de Uso: Adicionar uma nova sorveteria ao sistema.
+  - Função: Gerencia as informações das sorveterias cadastradas.
+  - Dados Armazenados: Nome, endereço e telefone.
+  - Exemplo de Uso: Adicionar uma nova sorveteria ao sistema.
 
 3. Sabor
-  ●	Função: Registra os diferentes sabores de sorvete disponíveis.
-  ●	Dados Armazenados: Nome, descrição, preço e a sorveteria a que pertence.
-  ●	Exemplo de Uso: Adicionar um novo sabor como 'Chocolate Belga' com sua descrição e preço.
+  - Função: Registra os diferentes sabores de sorvete disponíveis.
+  - Dados Armazenados: Nome, descrição, preço e a sorveteria a que pertence.
+  - Exemplo de Uso: Adicionar um novo sabor como 'Chocolate Belga' com sua descrição e preço.
 
 4. Cliente
-  ●	Função: Mantém os registros dos clientes que realizam pedidos.
-  ●	Dados Armazenados: Nome, idade e telefone.
-  ●	Exemplo de Uso: Cadastrar um novo cliente no sistema.
+  - Função: Mantém os registros dos clientes que realizam pedidos.
+  - Dados Armazenados: Nome, idade e telefone.
+  - Exemplo de Uso: Cadastrar um novo cliente no sistema.
 
 5. Pedido
-  ●	Função: Gerencia os pedidos feitos pelos clientes.
-  ●	Dados Armazenados: Cliente que fez o pedido, sabores escolhidos e valor total.
-  ●	Exemplo de Uso: Registrar um pedido feito por um cliente com vários sabores selecionados e calcular o total.
+  - Função: Gerencia os pedidos feitos pelos clientes.
+  - Dados Armazenados: Cliente que fez o pedido, sabores escolhidos e valor total.
+  - Exemplo de Uso: Registrar um pedido feito por um cliente com vários sabores selecionados e calcular o total.
 
 6. Funcionário
-  ●	Função: Mantém os registros dos funcionários da sorveteria.
-  ●	Dados Armazenados: Nome e cargo.
-  ●	Exemplo de Uso: Adicionar um novo funcionário ao sistema.
+  - Função: Mantém os registros dos funcionários da sorveteria.
+  - Dados Armazenados: Nome e cargo.
+  - Exemplo de Uso: Adicionar um novo funcionário ao sistema.
+
+## Banco de Dados
+O sistema utiliza o banco de dados SQLite, que é leve e eficiente, adequado para armazenar todas as informações de sorveterias, sabores, clientes, pedidos e funcionários de forma organizada e segura.
+
+## Conclusão
+Este sistema de gestão foi criado para tornar a administração de sorveterias mais simples, eficiente e organizada. Com ele, é possível gerenciar todas as operações de forma integrada, garantindo um atendimento de qualidade aos clientes.
 
 ## Contribuição
 
