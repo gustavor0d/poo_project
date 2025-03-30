@@ -9,7 +9,8 @@ Este projeto é um sistema de linha de comando desenvolvido em Python, com o obj
 -   [Requisitos](#requisitos)
 -   [Instalação](#instalação)
 -   [Uso](#uso)
--   [Estrutura do Sistema](#estrutura-do-sistema)
+-   [Exemplos](#exemplos-de-cadastros-e-listagens)
+-   [Estruturas](#estruturas)
 -   [Banco de Dados](#banco-de-dados)
 -   [Conclusão](#conclusão)
 -   [Notas](#notas)
@@ -24,35 +25,41 @@ Nosso sistema oferece as seguintes funcionalidades principais:
 -   **Cadastro de Clientes:** Permite criar registros detalhados de clientes (nome, idade e telefone).
 -   **Realização de Pedidos:** Permite que clientes façam pedidos, selecionando sabores e calculando automaticamente o total.
 -   **Listagem de Pedidos:** Exibe uma lista de todos os pedidos realizados, com detalhes do cliente, sabores e total.
--   **Listagem de Sorveterias e Clientes:** Exibe listas detalhadas de todas as sorveterias e clientes cadastrados.
+-   **Listagem de Sorveterias e Clientes:** Exibe listas detalhadas de todas as sorveterias, seus determinados sabores e clientes cadastrados.
 -   **Exclusão de Sorveterias e Clientes:** Permite a exclusão de registros de sorveterias e clientes.
 
 ## Requisitos
 
 -   Python **3.11**+
 -   Bibliotecas Python:
-    -   **SQLAlchemy** (ORM para banco de dados)
-    -   **SQLite** (Banco de dados embutido)
+    -   **SQLAlchemy** (ORM para banco de dados com SQLite embutido)
     -   **mypy** (Verificador estático de tipos)
     -   **os** (nativa do Python)
     -   **sys** (nativa do Python)
+    -   **datetime** (nativa do Python)
+    -   **time** (nativa do Python)
 
 ## Instalação
 
-1.  Clone o repositório para sua máquina local:
+1.  Clone o repositório em sua máquina local:
 
     ```bash
     git clone https://github.com/gustavor0d/poo_project.git
+    ```
+
+2.  Entre no repositório:
+   
+    ```bash
     cd poo_project
     ```
 
-2.  Crie um ambiente virtual (venv):
+3.  Crie um ambiente virtual (venv):
 
     ```bash
     python -m venv venv
     ```
 
-3.  Ative o ambiente virtual:
+4.  Ative o ambiente virtual:
 
     -   Windows:
 
@@ -66,16 +73,16 @@ Nosso sistema oferece as seguintes funcionalidades principais:
         source ./venv/bin/activate
         ```
 
-4.  Instale as dependências:
+5.  Instale as dependências:
 
     ```bash
     pip install -r requirements.txt
     ```
 
-5.  Execute o arquivo principal para iniciar a aplicação:
+6.  Execute o arquivo principal para iniciar a aplicação:
 
     ```bash
-    python main.py
+    python.exe main.py
     ```
 
 ## Uso
@@ -98,16 +105,43 @@ Menu:
 
 Insira o número correspondente à funcionalidade desejada. O sistema guiará você através dos processos de cadastro, listagem e exclusão de dados.
 
-## Estrutura do Sistema
+## Exemplos de Cadastros e Listagens
+
+### Exemplo de Cadastro de Sorveterias
+
+1. Selecione a opção `1` do menu para cadastrar uma sorveteria.  
+2. Siga as instruções na tela para inserir o **nome**, **endereço** e **telefone** da sorveteria.  
+3. Caso não haja erros, o sistema confirmará o cadastro e retornará ao menu principal, atribuindo um **Identificador Único** à sorveteria.  
+
+### Exemplo de Cadastro de Sabores
+
+1. Selecione a opção `2` do menu para cadastrar um sabor em uma sorveteria.  
+2. Informe o **Identificador Único** da sorveteria à qual deseja adicionar o sabor.  
+3. Siga as instruções na tela para inserir o **nome do sabor**, **descrição** e **preço**.  
+4. Caso não haja erros, o sistema confirmará o cadastro e retornará ao menu principal.  
+
+### Exemplo de Listagem de Sorveterias e Sabores
+
+1. Selecione a opção `6` do menu para listar as sorveterias.  
+2. A lista de sorveterias cadastradas será exibida, contendo seus respectivos **nomes**, **endereços**, **telefones** e a **quantidade de sabores cadastrados**.  
+3. Nesta tela, um **menu secundário** será apresentado, permitindo:  
+   - **Listar os sabores** cadastrados de uma determinada sorveteria.  
+   - **Deletar uma sorveteria**.  
+   - **Voltar ao menu principal**.  
+4. Ao selecionar a opção `1` para listar os sabores, o sistema solicitará que insira o **Identificador Único** da sorveteria. Em seguida, exibirá uma lista com os sabores cadastrados, incluindo suas **descrições** e **preços**.  
+
+## Estruturas 
+
+###  Estrutura do Sistema
 
 O sistema é estruturado em torno das seguintes entidades principais:
 
--   **Sorveteria:** Gerencia as informações das sorveterias cadastradas (nome, endereço, telefone).
--   **Sabor:** Registra os diferentes sabores de sorvete disponíveis (nome, descrição, preço, sorveteria).
--   **Cliente:** Mantém os registros dos clientes que realizam pedidos (nome, idade, telefone).
--   **Pedido:** Gerencia os pedidos feitos pelos clientes (cliente, sabores, valor total).
+-   `Sorveteria`: Gerencia as informações das sorveterias cadastradas (nome, endereço, telefone).
+-   `Sabor`: Registra os diferentes sabores de sorvete disponíveis (nome, descrição, preço, sorveteria).
+-   `Cliente`: Mantém os registros dos clientes que realizam pedidos (nome, idade, telefone).
+-   `Pedido`: Gerencia os pedidos feitos pelos clientes (cliente, sabores, valor total).
 
-##  Estrutura de Arquivos
+###  Estrutura de Arquivos
 
 ```
 poo_project/
@@ -157,7 +191,9 @@ Se você deseja contribuir com melhorias para o projeto, siga estas etapas:
 
 Sugestões para novas funcionalidades e aprimoramento do código são sempre bem-vindas!
 
+Com esses recursos, o programa proporciona uma base sólida para a otimização e o aprimoramento da eficiência operacional das sorveterias, garantindo uma gestão mais eficaz e estratégica dos recursos disponíveis.
+-
 
-Desenvolvido por: Gustavo Oliveira
+>> Desenvolvido por: Gustavo Oliveira
 
-GitHub: https://github.com/gustavor0d/poo_project
+>> GitHub: https://github.com/gustavor0d/poo_project
