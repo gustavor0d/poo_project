@@ -1,15 +1,14 @@
 from models.base import session
 from models.cliente import Cliente
-from utils.helpers import cls
+from utils.helpers import cls, valor_entrada
+from time import sleep
 
 def cadastrar_cliente():
-    print("="*6, "Cadastro de Cliente", "="*6)
+    print("="*8, "Cadastro de Cliente", "="*8)
     print("\n(Digite '0' para cancelar o cadastro)\n")
 
-    nome = input("Nome: ")
-    if nome == '0':
-        cls()
-        print("\nCadastro de cliente cancelado.")
+    nome = valor_entrada("Cliente", "Nome: ")
+    if nome is None:
         return
 
     while True:
@@ -20,11 +19,12 @@ def cadastrar_cliente():
 
             if idade == 0:
                 cls()
-                print("\nCadastro de cliente cancelado.")
+                print("Cadastro de cliente cancelado.")
                 return
 
             if 0 < idade < 16:
-                print(f"\nVocê deve ser maior de 15 anos para realizar um cadastro em nosso sistema!\nCadastro do(a) {nome} cancelado.")
+                cls()
+                print(f"Você deve ser maior de 15 anos para realizar um cadastro em nosso sistema!\nCadastro do cliente '{nome}' cancelado automáticamente.")
                 return
             
             elif idade < 0 or idade > 100:
@@ -37,10 +37,8 @@ def cadastrar_cliente():
         except:
             print("\nOops, idade inválida! Tente novamente.\n")
 
-    telefone = input("Telefone: ")
-    if telefone == '0':
-        cls()
-        print("\nCadastro de cliente cancelado.")
+    telefone = valor_entrada("Cliente", "Telefone: ")
+    if telefone is None:
         return
 
     cliente = Cliente(nome=nome, idade=idade, telefone=telefone)
@@ -49,23 +47,23 @@ def cadastrar_cliente():
     session.commit()
 
     cls()
-    print(f"\nCliente '{nome}' cadastrado com sucesso!\n")
+    print(f"Cliente '{nome}' cadastrado com sucesso!\n")
     print(f"ID do cliente: {cliente.idCliente}")
 
 def listar_clientes():
     clientes = session.query(Cliente).all()
 
     if clientes:
-        print("\n" + "ID".ljust(3) + " | " + "Nome".ljust(25) + " | " + "Idade".ljust(5) + " | " + "Telefone".ljust(20))
-        print("-" * 60)
-
-        for cliente in clientes:
-            print(str(cliente.idCliente).ljust(3) + " | " + cliente.nome.ljust(25) + " | " + str(cliente.idade).ljust(5) + " | " + cliente.telefone.ljust(20))
-
-        print("-" * 60)
-
         while True:
-            print("\nOpções:\n")
+            cls()
+
+            print("Lista de Clientes cadastrados:\n")
+            print("ID".ljust(3) + " | " + "Nome".ljust(25) + " | " + "Idade".ljust(5) + " | " + "Telefone")
+            print("-" * 53)
+            for cliente in clientes:
+                print(str(cliente.idCliente).ljust(3) + " | " + cliente.nome.ljust(25) + " | " + str(cliente.idade).ljust(5) + " | " + cliente.telefone)
+
+            print("\n\nOpções:\n")
             print("1. Deletar Clientes")
             print("0. Voltar")
 
@@ -80,8 +78,8 @@ def listar_clientes():
 
                             if id_cliente == 0:
                                 cls()
-                                print("\nOperação cancelada.")
-                                return
+                                print("Operação cancelada.")
+                                break
 
                             if id_cliente < 0 or id_cliente > len(clientes):
                                 print("\nID inválido, tente novamente.")
@@ -99,12 +97,13 @@ def listar_clientes():
                 break
 
             else:
-                print("\nOops, opção inválida! Tente novamente.")
+                print("\nOops, opção inválida! Tente novamente...")
+                sleep(0.5)
                 continue
 
     else:
         cls()
-        print("\nNenhum cliente cadastrado.")
+        print("Nenhum cliente cadastrado.")
 
 def deletar_cliente(id_cliente):
     cliente = session.query(Cliente).get(id_cliente)
@@ -134,4 +133,4 @@ def deletar_cliente(id_cliente):
                 continue
     else:
         cls()
-        print(f"\nCliente ID {id_cliente} não encontrado.")
+        print(f"Cliente ID {id_cliente} não encontrado.")

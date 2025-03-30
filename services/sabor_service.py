@@ -1,20 +1,21 @@
 from models.base import session
 from models.sorveteria import Sorveteria
 from models.sabor import Sabor
-from utils.helpers import cls
+from utils.helpers import cls, valor_entrada
 
 def cadastrar_sabor():
     sorveterias = session.query(Sorveteria).all()
 
     if not sorveterias:
         cls()
-        print("\nÉ necessário ter uma sorveteria para cadastrar um sabor.")
+        print("É necessário ter pelo omenos uma sorveteria criada para cadastrar um sabor.")
         return
     
-    print("\nLista de sorveteria(s):")
-
+    print("Lista de Sorveterias:\n")
+    print("ID".ljust(3) + " | " + "Nome".ljust(15))
+    print("-" * 20)
     for sorveteria in sorveterias:
-        print(f"ID: {sorveteria.idSorveteria} - {sorveteria.nome}")
+        print(str(sorveteria.idSorveteria).ljust(3) + " | " + sorveteria.nome.ljust(15))
 
     while True:
         escolha_sorveteria = input("\nEscolha o ID de uma sorveteria para cadastrar o sabor (ou digite '0' para cancelar): ")
@@ -24,7 +25,7 @@ def cadastrar_sabor():
 
             if id_sorveteria + 1 == 0:
                 cls()
-                print("\nCadastro de sabor cancelado.")
+                print("Cadastro de sabor cancelado.")
                 return
         
             if id_sorveteria < 0 or id_sorveteria >= len(sorveterias):
@@ -40,21 +41,17 @@ def cadastrar_sabor():
     sorveteria_selecionada = sorveterias[id_sorveteria]
     
     cls()
-    print(f"Sorveteria: {sorveteria_selecionada.nome} selecionada com sucesso!\n")
+    print(f"* Sorveteria: '{sorveteria_selecionada.nome}' selecionada com sucesso!\n")
 
     print("="*8, "Cadastro de Sabor", "="*8)
     print("\n(Digite '0' para cancelar o cadastro)\n")
 
-    nome = input("Nome do Sabor: ")
-    if nome == '0':
-        cls()
-        print("\nCadastro de sabor cancelado.")
+    nome = valor_entrada("Sabor", "Nome do Sabor: ")
+    if nome is None:
         return
 
-    descricao = input("Descrição do Sabor adicionado: ")
-    if descricao == '0':
-        cls()
-        print("\nCadastro de sabor cancelado.")
+    descricao = valor_entrada("Sabor", "Descrição do Sabor adicionado: ")
+    if descricao is None:
         return
 
     while True:
@@ -65,7 +62,7 @@ def cadastrar_sabor():
 
             if preco_escolhido <= 0:
                 cls()
-                print("\nCadastro de sabor cancelado.")
+                print("Cadastro de sabor cancelado.")
                 return
             
             else:
@@ -79,7 +76,7 @@ def cadastrar_sabor():
     session.commit()
 
     cls()
-    print(f"\nSabor '{nome}' cadastrado com sucesso na sorveteria: {sorveteria_selecionada.nome}")
+    print(f"Sabor '{nome}' cadastrado com sucesso na sorveteria: '{sorveteria_selecionada.nome}'")
 
 def listar_sabores():
     sorveterias = session.query(Sorveteria).all()
@@ -92,8 +89,8 @@ def listar_sabores():
 
             if id_sorveteria + 1 == 0:
                 cls()
-                print("\nOperação cancelada.")
-                return
+                print("Operação cancelada.")
+                return False
 
             if id_sorveteria < 0 or id_sorveteria >= len(sorveterias):
                 print("\nID da sorveteria inválida.")
@@ -110,13 +107,12 @@ def listar_sabores():
     
     if not sabores:
         cls()
-        print(f"\nNenhum sabor cadastrado na sorveteria: {sorveteria_selecionada.nome}.")
+        print(f"Nenhum sabor cadastrado na sorveteria: '{sorveteria_selecionada.nome}'.")
         
     else:
         cls()
-        print(f"\nSabores disponíveis na sorveteria {sorveteria_selecionada.nome}:")
-        print("\n" + "ID".ljust(5) + " | " + "Sabor".ljust(20) + " | " + "Descrição".ljust(40) + " | " + "Preço (R$)".ljust(10))
-        print("-" * 90)
-
-        for i, sabor in enumerate(sabores, 1):
-            print(f"{i}".ljust(5) + " | " + sabor.nome.ljust(20) + " | " + sabor.descricao.ljust(40) + " | " + f"{sabor.preco:.2f}".ljust(10))
+        print(f"Sabores disponíveis na sorveteria: '{sorveteria_selecionada.nome}':")
+        print("\n" + "ID".ljust(3) + " | " + "Sabor".ljust(20) + " | " + "Descrição".ljust(40) + " | " + "Preço (R$)".ljust(10))
+        print("-" * 88)
+        for sabor in sabores:
+            print(f"{sabor.idSabor}".ljust(3) + " | " + sabor.nome.ljust(20) + " | " + sabor.descricao.ljust(40) + " | " + f"{sabor.preco:.2f}".ljust(10))

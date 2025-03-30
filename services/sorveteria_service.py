@@ -1,29 +1,24 @@
 from models.base import session
 from models.sorveteria import Sorveteria
-from utils.helpers import cls
+from models.sabor import Sabor
 from services.sabor_service import listar_sabores
+from utils.helpers import cls, valor_entrada
+from time import sleep
 
 def cadastrar_sorveteria():
     print("="*6, "Cadastro de Sorveteria", "="*6)
-
     print("\n(Digite '0' para cancelar o cadastro)\n")
 
-    nome = input("Digite um Nome: ")
-    if nome == '0':
-        cls()
-        print("\nCadastro de sorveteria cancelado.")
+    nome = valor_entrada("Sorveteria", "Digite um Nome: ")
+    if nome is None:
         return
 
-    endereco = input("Digite um Endereço: ")
-    if endereco == '0':
-        cls()
-        print("\nCadastro de sorveteria cancelado.")
+    endereco = valor_entrada("Sorveteria", "Digite um Endereço: ")
+    if endereco is None:
         return
 
-    telefone = input("Digite um Telefone: ")
-    if telefone == '0':
-        cls()
-        print("\nCadastro de sorveteria cancelado.")
+    telefone = valor_entrada("Sorveteria", "Digite um Telefone: ")
+    if telefone is None:
         return
 
     sorveteria = Sorveteria(nome=nome, endereco=endereco, telefone=telefone)
@@ -31,23 +26,23 @@ def cadastrar_sorveteria():
     session.commit()
 
     cls()
-    print(f"\nSorveteria '{nome}' cadastrada com sucesso!\n")
+    print(f"Sorveteria '{nome}' cadastrada com sucesso!\n")
     print(f"ID da Sorveteria: {sorveteria.idSorveteria}")
 
 def listar_sorveterias():
     sorveterias = session.query(Sorveteria).all()
 
     if sorveterias:
-        print("\n" + "ID".ljust(5) + " | " + "Nome".ljust(20) + " | " + "Endereço".ljust(25) + " | " + "Telefone".ljust(15))
-        print("-" * 75)
-
-        for sorveteria in sorveterias:
-            print(str(sorveteria.idSorveteria).ljust(5) + " | " + sorveteria.nome.ljust(20) + " | " + sorveteria.endereco.ljust(25) + " | " + sorveteria.telefone.ljust(15))
-        
-        print("-" * 75)
-
         while True:
-            print("\nOpções:\n")
+            cls()
+
+            print("Lista de Sorveterias cadastradas:")
+            print("\n" + "ID".ljust(3) + " | " + "Nome".ljust(15) + " | " + "Endereço".ljust(15) + " | " + "Telefone".ljust(10) + " | " + "Qtd. Sabores")
+            print("-" * 68)
+            for sorveteria in sorveterias:
+                print(str(sorveteria.idSorveteria).ljust(3) + " | " + sorveteria.nome.ljust(15) + " | " + sorveteria.endereco.ljust(15) + " | " + sorveteria.telefone.ljust(10) + " | " + str(len(session.query(Sabor).filter_by(sorveteria_id=sorveteria.idSorveteria).all())))
+
+            print("\n\nOpções:\n")
             print("1. Visualizar Sabores")
             print("2. Deletar Sorveterias")
             print("0. Voltar")
@@ -55,8 +50,22 @@ def listar_sorveterias():
             opcao = input("\nEscolha uma opção: ")
 
             if opcao == '1':
-                listar_sabores()
-                break
+                sabores = listar_sabores()
+
+                if sabores is False:
+                    continue
+
+                print("\n\nOpções:\n")
+                print("0. Voltar")
+
+                while True:
+                    voltar = input("\nEscolha uma opção: ")
+
+                    if voltar == '0':
+                        break
+
+                    else:
+                        print("\nOops, opção inválida! Tente novamente...")
 
             if opcao == '2':
                     while True:
@@ -67,8 +76,8 @@ def listar_sorveterias():
 
                             if id_sorveteria == 0:
                                 cls()
-                                print("\nOperação cancelada.")
-                                return
+                                print("Operação cancelada.")
+                                break
 
                             if id_sorveteria < 0 or id_sorveteria > len(sorveterias):
                                 print("\nID de sorveteria inválido, tente novamente.")
@@ -86,11 +95,12 @@ def listar_sorveterias():
                 break
 
             else:
-                print("\nOops, opção inválida! Tente novamente.")
+                print("\nOops, opção inválida! Tente novamente...")
+                sleep(0.5)
                 continue
     else:
         cls()
-        print("\nNenhuma sorveteria cadastrada.")
+        print("Nenhuma sorveteria cadastrada.")
 
 def deletar_sorveteria(id_sorveteria):
     sorveteria = session.query(Sorveteria).get(id_sorveteria)
@@ -120,4 +130,4 @@ def deletar_sorveteria(id_sorveteria):
                 continue
     else:
         cls()
-        print(f"\nSorveteria ID {id_sorveteria} não encontrada.")
+        print(f"Sorveteria ID {id_sorveteria} não encontrada.")
