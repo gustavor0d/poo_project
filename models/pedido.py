@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, ForeignKey, Table
+from sqlalchemy import Column, Integer, Float, ForeignKey, Table, Date
 from sqlalchemy.orm import relationship
 from models.base import Base
 
@@ -15,6 +15,10 @@ class Pedido(Base):
     cliente = relationship("Cliente", back_populates="pedidos")
     sabores = relationship("Sabor", secondary=pedido_sabor)
     total = Column(Float)
+    data = Column(Date)
 
     def calcular_total(self):
         self.total = sum(sabor.preco for sabor in self.sabores)
+
+    def atribuir_data(self, today):
+        self.data = today
