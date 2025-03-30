@@ -3,7 +3,8 @@ from models.cliente import Cliente
 from models.sorveteria import Sorveteria
 from models.sabor import Sabor
 from models.pedido import Pedido
-from utils.helpers import cls
+from utils.helpers import cls, data_format, data
+from time import sleep
 
 def realizar_pedido():
     clientes = session.query(Cliente).all()
@@ -11,17 +12,19 @@ def realizar_pedido():
     
     if not clientes:
         cls()
-        print("\nAinda não existe nenhum cliente cadastrado para realizar um pedido!")
+        print("Ainda não existe nenhum cliente cadastrado para realizar um pedido!")
         return
     
     if not sorveterias:
         cls()
-        print("\nAinda não existe nenhuma sorveteria cadastrada.")
+        print("Ainda não existe nenhuma sorveteria cadastrada para realizar um pedido!")
         return
     
-    print("\nLista de cliente(s):")
+    print("Lista de Clientes:\n")
+    print("ID".ljust(3) + " | " + "Nome")
+    print("-" * 20)
     for cliente in clientes:
-        print(f"ID: {cliente.idCliente} - Nome: {cliente.nome}")
+        print(str(cliente.idCliente).ljust(3) + " | " + cliente.nome)
 
     while True:
         escolha_cliente = input("\nEscolha o ID do cliente que irá realizar o pedido (digite '0' para cancelar): ")
@@ -31,7 +34,7 @@ def realizar_pedido():
 
             if id_cliente + 1 == 0:
                 cls()
-                print("\nRealização do pedido cancelada.")
+                print("Realização do pedido cancelada.")
                 return
         
             if id_cliente < 0 or id_cliente >= len(clientes):
@@ -50,19 +53,21 @@ def realizar_pedido():
 
     print(f"Cliente {cliente.nome} selecionado com sucesso!")
        
-    print("\nSorveterias:")
-    for i, sorveteria in enumerate(sorveterias, 1):
-        print(f"ID: {i} - Sorveteria: {sorveteria.nome} - Qtd. Sabores:", len(session.query(Sabor).filter_by(sorveteria_id=sorveterias[i-1].idSorveteria).all()))
+    print("\nSorveterias:\n")
+    print("ID".ljust(3) + " | " + "Nome".ljust(15) + " | " + "Qtd. Sabores")
+    print("-" * 38)
+    for sorveteria in sorveterias:
+        print(str(sorveteria.idSorveteria).ljust(3) + " | " + sorveteria.nome.ljust(15) + " | " + str(len(session.query(Sabor).filter_by(sorveteria_id=sorveteria.idSorveteria).all())))
     
     while True:
-        escolha_sorveteria = input("\nEscolha o ID da sorveteria que irá realizar o pedido: ")
+        escolha_sorveteria = input("\nEscolha o ID da sorveteria que o cliente irá realizar o pedido (digite '0' para cancelar): ")
 
         try:
             id_sorveteria = int(escolha_sorveteria) - 1
 
             if id_sorveteria + 1 == 0:
                 cls()
-                print("\nRealização do pedido cancelada.")
+                print("Realização do pedido cancelada.")
                 return
 
             if id_sorveteria < 0 or id_sorveteria >= len(sorveterias):
@@ -81,26 +86,33 @@ def realizar_pedido():
     
     if not sabores:
         cls()
-        print(f"\nNenhum sabor cadastrado na sorveteria: {sorveteria_escolhida.nome}.")
+        print(f"Nenhum sabor cadastrado na sorveteria: '{sorveteria_escolhida.nome}'.")
         return
     
     pedido = Pedido(cliente=cliente)
     
     cls()
 
-    print(f"Escolha os sabores para o pedido de {cliente.nome} na sorveteria {sorveteria_escolhida.nome}.")
-    print("\n(Digite '0' para finalizar o pedido com os itens adicionados)\n")
-    
-    for i, sabor in enumerate(sabores, 1):
-        print(f"ID: {i} - Sabor : " + str(sabor.nome).ljust(15) + f"- Preço: R$ {sabor.preco:.2f}")
-    
-    print()
+    print(f"Pedido de: {cliente.nome}")
+
+    print(f"\nSabores disponíveis na sorveteria {sorveteria_escolhida.nome}:\n")
+    print("ID".ljust(5) + " | " + "Sabor".ljust(20) + " | " + "Descrição".ljust(40) + " | " + "Preço (R$)".ljust(10))
+    print("-" * 90)
+
+    for sabor in sabores:
+        print(f"{sabor.idSabor}".ljust(5) + " | " + sabor.nome.ljust(20) + " | " + sabor.descricao.ljust(40) + " | " + f"{sabor.preco:.2f}".ljust(10))
+
+    print("\n\n(Digite '0' para finalizar o pedido com os itens adicionados)\n")
 
     contagem_pedidos = 0
+    valor_momento = 0.0
+    status_pedido = False
 
     while True:
-        if contagem_pedidos == 0:
-            print("(Pedidos: 0)")
+        if contagem_pedidos <= 0:
+            print("(Carrinho vazio)")
+        else:
+            status_pedido = True
         
         id_sabor = input("ID do sabor: ")
 
@@ -117,37 +129,85 @@ def realizar_pedido():
             sabor_escolhido = sabores[escolha_sabor - 1]
             pedido.sabores.append(sabor_escolhido)
             contagem_pedidos += 1
+            valor_momento += sabor_escolhido.preco
 
-            print(f"\n(Pedidos: {contagem_pedidos} | Sabor: {sabor_escolhido.nome})")
+            print(f"\n(Pedidos: {contagem_pedidos}) | Sabor: {sabor_escolhido.nome} | +R$ {sabor_escolhido.preco:.2f} | Valor total: R$ {valor_momento:.2f}")
+
+            if contagem_pedidos == 10:
+                print(f"\nVocê atingiu a quantidade máxima de itens no mesmo pedido! ({contagem_pedidos})")
+
+                print(f"\n\tDeseja continuar com a compra? Total: R$ {valor_momento:.2f}")
+                print("\t[S] para Sim")
+                print("\t[N] para Não")
+
+                finalizar_pedido = input("\n\t>>> ").lower()
+
+                if finalizar_pedido == 's':
+                    status_pedido = True
+                    break
+
+                elif finalizar_pedido == 'n':
+                    status_pedido = False
+                    break
+
+                else:
+                    print("\nOpção não identificada, por isso vamos cancelar seu pedido automáticamente...")
+                    sleep(3)
+                    break
 
         except:
-            print("ID inválido.")
+            print("\n[ID de sabor inválido]\n")
     
-    if contagem_pedidos > 0:
+    if contagem_pedidos > 0 and status_pedido:
         pedido.calcular_total()
+        pedido.atribuir_data(data)
         session.add(pedido)
         session.commit()
 
         cls()        
-        print(f"\nPedido realizado com sucesso! Cliente: {cliente.nome}, Sorveteria: {sorveteria_escolhida.nome}, Total: R$ {pedido.total:.2f} | {contagem_pedidos} Pedido(s).")
+        print(f"Pedido realizado com sucesso!"
+              f"\nCliente: {cliente.nome}"
+              f"\nSorveteria: {sorveteria_escolhida.nome}"
+              f"\nTotal: R$ {pedido.total:.2f} | {contagem_pedidos} Pedido(s)."
+              f"\nData: {data_format(pedido.data)}")
 
+    elif contagem_pedidos == 0:
+        cls()
+        print("Pedido cancelado. Nenhum sabor selecionado.")
     else:
         cls()
-        print("\nPedido cancelado. Nenhum sabor selecionado.")
+        print("Pedido cancelado no carrinho.")
 
 def listar_pedidos():
     pedidos = session.query(Pedido).all()
 
     if pedidos:
-        print("\n" + "ID".ljust(5) + " | " + "Cliente".ljust(20) + " | " + "Sorveteria".ljust(20) + " | " + "Sabor(es)".ljust(30) + " | " + "Total".ljust(10))
-        print("-" * 100)
+        while True:
+            cls()
 
-        for pedido in pedidos:
-            if pedido.sabores:
-                sorveteria_nome = pedido.sabores[0].sorveteria.nome
-            
-            sabores = ', '.join([sabor.nome for sabor in pedido.sabores])
-            print(str(pedido.idPedido).ljust(5) + " | " + pedido.cliente.nome.ljust(20) + " | " + sorveteria_nome.ljust(20) + " | " + sabores.ljust(30) + " | " + f"R${pedido.total:.2f}".ljust(10))
+            print("Lista de Pedidos:\n")
+            print("ID".ljust(5) + " | " + "Cliente".ljust(20) + " | " + "Sorveteria".ljust(20) + " | " + "Sabor(es)".ljust(30) + " | " + "Total".ljust(10) + " | " + "Data Pedido".ljust(10))
+            print("-" * 120)
+            for pedido in pedidos:
+                if pedido.sabores:
+                    sorveteria_nome = pedido.sabores[0].sorveteria.nome
+                sabores = ', '.join([sabor.nome for sabor in pedido.sabores])
+                print(str(pedido.idPedido).ljust(5) + " | " + pedido.cliente.nome.ljust(20) + " | " + sorveteria_nome.ljust(20) + " | " + sabores.ljust(30) + " | " + f"R${pedido.total:.2f}".ljust(10)  + " | " + str(data_format(pedido.data)).ljust(10))
+
+            print("\n\nOpções:\n")
+            print("0. Voltar")
+
+            opcao = input("\nEscolha uma opção: ")
+
+            if opcao == '0':
+                cls()
+                break
+
+            else:
+                print("\nOops, opção inválida! Tente novamente...")
+                sleep(0.5)
+                continue
+
     else:
         cls()
-        print("\nNenhum pedido localizado.")
+        print("Nenhum pedido localizado.")
