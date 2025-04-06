@@ -27,25 +27,18 @@ def menu():
 
         match(input("\nEscolha uma opção: ")):
             case '1':
-                cls()
                 cadastrar_sorveteria()
             case '2':
-                cls()
                 cadastrar_sabor()
             case '3':
-                cls()
                 cadastrar_cliente()
             case '4':
-                cls()
                 realizar_pedido()
             case '5':
-                cls()
                 listar_pedidos()
             case '6':
-                cls()
                 listar_sorveterias()
             case '7':
-                cls()
                 listar_clientes()
             case '0':
                 cls()
