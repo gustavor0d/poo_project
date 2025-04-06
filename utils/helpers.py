@@ -8,7 +8,7 @@ def valor_entrada(table, prompt):
     valor = input(prompt).strip()
     if valor == '0':
         cls()
-        print(f"\nCadastro de {table} cancelado.")
+        print(f"Cadastro de {table} cancelado.")
         return None
     return valor
 
